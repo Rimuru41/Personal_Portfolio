@@ -11,7 +11,7 @@ const pool = new Pool({
 pool.on('connect', () => {
     console.log('Connected to the database');
 });
-pool.error('error', (err) => {
+pool.on('error', (err) => {
     console.error('Database connection error:', err);
 });
 

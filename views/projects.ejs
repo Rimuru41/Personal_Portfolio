@@ -1,0 +1,165 @@
+<%- include('partials/_htmlheader.ejs') %>
+
+    <div class="blob"></div>
+
+    <nav>
+        <div class="logo">Dev<span>Portfolio</span></div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero content-section">
+        <div class="hero-main">
+            <h1>Building the <span class="gradient-text">Future</span> of Web.</h1>
+            <p class="hero-subtitle">Student at Thapathali Campus, IOE. Specialized in Node.js, Express, and PostgreSQL.
+            </p>
+            <div class="hero-actions">
+                <button id="load-skills" class="btn-secondary">View My Skills</button>
+            </div>
+            <div id="skills-container" class="skills-box"></div>
+        </div>
+
+        <div class="about-section">
+            <div class="about-card">
+                <h2>About Me</h2>
+                <p>I'm a passionate Full Stack Developer currently pursuing my engineering degree at Thapathali Campus.
+                    I love turning complex problems into simple, beautiful, and intuitive designs.</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-item">
+                    <span class="service-icon">⚡</span>
+                    <h3>Backend Dev</h3>
+                    <p>Building scalable and robust server-side applications using Node.js and PostgreSQL.</p>
+                </div>
+                <div class="service-item">
+                    <span class="service-icon">🎨</span>
+                    <h3>UI/UX Design</h3>
+                    <p>Creating modern, clean, and user-centric interfaces with focus on performance.</p>
+                </div>
+                <div class="service-item">
+                    <span class="service-icon">🐳</span>
+                    <h3>DevOps</h3>
+                    <p>Experience with Docker and containerization for modern development workflows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="content-section hidden">
+        <div class="section-header">
+            <h2 class="section-title">Latest Work</h2>
+            <button id="add-project-btn" class="btn-primary"><span class="plus">+</span> Add Project</button>
+        </div>
+        <div class="project-grid">
+            <% projects.forEach(project=> { %>
+                <div class="project-card" data-id="<%= project.id %>">
+                    <div class="card-menu">
+                        <button class="menu-trigger">⋮</button>
+                        <div class="menu-dropdown">
+                            <button class="edit-btn" data-id="<%= project.id %>">Edit</button>
+                            <button class="delete-btn" data-id="<%= project.id %>">Delete</button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <span class="tech-tag">
+                            <%= project.tech_stack %>
+                        </span>
+                        <h3>
+                            <%= project.project_name %>
+                        </h3>
+                        <p>
+                            <%= project.description %>
+                        </p>
+                        <a href="<%= project.link %>" class="project-link" target="_blank">Source Code →</a>
+                    </div>
+                </div>
+                <% }); %>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section hidden">
+        <div class="centered-header">
+            <h2 class="section-title">Get In Touch</h2>
+        </div>
+        <div class="contact-container">
+            <div class="contact-card">
+                <div class="contact-item">
+                    <span class="icon">📧</span>
+                    <div>
+                        <h3>Gmail</h3>
+                        <p>dev.white.rimuru@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="icon">📱</span>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+977 980-0000000</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="icon">💻</span>
+                    <div>
+                        <h3>GitHub</h3>
+                        <a href="https://github.com/Rimuru41" target="_blank">github.com/Rimuru41</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="icon">🔗</span>
+                    <div>
+                        <h3>LinkedIn</h3>
+                        <a href="https://linkedin.com/in/rimuru-dev" target="_blank">linkedin.com/in/rimuru-dev</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal (Add/Edit) -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Add Project</h2>
+            <form id="project-form">
+                <input type="hidden" id="project-id">
+                <div class="form-group">
+                    <label for="title">Project Title</label>
+                    <input type="text" id="title" required placeholder="e.g. Portfolio Website">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" required placeholder="Describe your project..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tech_stack">Tech Stack</label>
+                    <input type="text" id="tech_stack" required placeholder="e.g. Node.js, PostgreSQL">
+                </div>
+                <div class="form-group">
+                    <label for="link">Source Link</label>
+                    <input type="url" id="link" required placeholder="https://github.com/...">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn-ghost closeModal">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Project</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal">
+        <div class="modal-content">
+            <h2>Confirm Delete</h2>
+            <p>Are you sure you want to delete this project? This action cannot be undone.</p>
+            <div class="form-actions">
+                <button class="btn-ghost closeModal">Cancel</button>
+                <button id="confirm-delete-btn" class="btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+
+    <%- include('partials/_htmlfoot.ejs') %>
