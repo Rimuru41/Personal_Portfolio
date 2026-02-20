@@ -6,11 +6,13 @@ const pool = new Pool({
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_INTERNAL_PORT || 5432,
-    ssl: false,
+    ssl: process.env.POSTGRES_HOST !== 'localhost' ? { rejectUnauthorized: false } : false,
 })
+
 pool.on('connect', () => {
-    console.log('Connected to the database');
+    console.log('Successfully connected to the database');
 });
+
 pool.on('error', (err) => {
     console.error('Database connection error:', err);
 });
