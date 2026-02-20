@@ -1,6 +1,8 @@
 import express from 'express';
 import { dirname, sep } from 'path';
 import { fileURLToPath } from 'url';
+import session from 'express-session';
+import bcrypt from 'bcrypt';
 import pool from './db/connect.js';
 import { add_project, delete_project, update_project } from './models/manager.js';
 const __dirname = fileURLToPath(dirname(import.meta.url));
@@ -22,11 +24,31 @@ app.use(express.urlencoded({ extended: true }))
 app.set('view engine', 'ejs');
 app.set('views', cfg.dir.views);
 
+// Session middleware
+app.use(session({
+    secret: process.env.SESSION_SECRET || 'dev-portfolio-secret-key-change-me',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 24 hours
+    }
+}));
+
+// Auth middleware
+function requireAdmin(req, res, next) {
+    if (req.session && req.session.isAdmin) {
+        return next();
+    }
+    return res.status(401).json({ success: false, error: 'Unauthorized' });
+}
+
 app.get('/', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM projects');
         const projects = result.rows;
-        res.render('projects', { projects });
+        const isAdmin = req.session?.isAdmin || false;
+        res.render('projects', { projects, isAdmin });
 
     }
     catch (err) {
@@ -35,37 +57,104 @@ app.get('/', async (req, res) => {
 
     }
 })
-// Add this to your existing app.js
-app.get('/api/skills', (req, res) => {
-    const mySkills = ["Node.js", "Express", "PostgreSQL", "Docker", "UI/UX Design", "C++"];
-    res.json({ skills: mySkills });
+
+// Skills API - GET all skills
+app.get('/api/skills', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT id, skill_name FROM skills ORDER BY id');
+        const skills = result.rows;
+        res.json({ skills });
+    }
+    catch (err) {
+        console.error('Error fetching skills:', err);
+        res.status(500).json({ error: 'Server error' });
+    }
 });
 
-// POST - Add new project
-app.post('/api/projects', async (req, res) => {
+// POST - Add new skill (protected)
+app.post('/api/skills', requireAdmin, async (req, res) => {
     try {
-        await add_project(req.body);
+        const { skill_name } = req.body;
+        const result = await pool.query('INSERT INTO skills (skill_name) VALUES ($1) RETURNING *', [skill_name]);
+        res.json({ success: true, skill: result.rows[0] });
+    } catch (err) {
+        console.error('Error adding skill:', err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// DELETE - Delete skill (protected)
+app.delete('/api/skills/:id', requireAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        await pool.query('DELETE FROM skills WHERE id = $1', [id]);
         res.json({ success: true });
+    } catch (err) {
+        console.error('Error deleting skill:', err);
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+// Login
+app.post('/api/login', async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const result = await pool.query('SELECT * FROM admin_users WHERE username = $1', [username]);
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({ success: false, error: 'Invalid credentials' });
+        }
+
+        const user = result.rows[0];
+        const match = await bcrypt.compare(password, user.password_hash);
+
+        if (!match) {
+            return res.status(401).json({ success: false, error: 'Invalid credentials' });
+        }
+
+        req.session.isAdmin = true;
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Login error:', err);
+        res.status(500).json({ success: false, error: 'Server error' });
+    }
+});
+
+// Logout
+app.post('/api/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Logout failed' });
+        }
+        res.json({ success: true });
+    });
+});
+
+// POST - Add new project (protected)
+app.post('/api/projects', requireAdmin, async (req, res) => {
+    try {
+        const project = await add_project(req.body);
+        res.json({ success: true, project });
     } catch (err) {
         console.error('Error adding project:', err);
         res.status(500).json({ success: false, error: err.message });
     }
 });
 
-// PUT - Update project
-app.put('/api/projects/:id', async (req, res) => {
+// PUT - Update project (protected)
+app.put('/api/projects/:id', requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
-        await update_project(id, req.body);
-        res.json({ success: true });
+        const project = await update_project(id, req.body);
+        res.json({ success: true, project });
     } catch (err) {
         console.error('Error updating project:', err);
         res.status(500).json({ success: false, error: err.message });
     }
 });
 
-// DELETE - Delete project
-app.delete('/api/projects/:id', async (req, res) => {
+// DELETE - Delete project (protected)
+app.delete('/api/projects/:id', requireAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         await delete_project(id);
@@ -82,4 +171,3 @@ app.get((req, res) => {
 app.listen(cfg.port, () => {
     console.log(`Server is running on port http://localhost:${cfg.port}`);
 })
-

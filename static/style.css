@@ -231,6 +231,76 @@ nav a:hover {
     color: #2dd4bf;
 }
 
+.skills-list {
+    margin-bottom: 0.75rem;
+}
+
+.skills-admin {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.75rem;
+    font-style: normal;
+}
+
+.skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(59, 130, 246, 0.15);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    transition: 0.3s;
+}
+
+.skill-chip:hover {
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.25);
+}
+
+.skill-remove {
+    background: none;
+    border: none;
+    color: #f87171;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.6;
+    transition: 0.2s;
+}
+
+.skill-remove:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.skill-add-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px dashed rgba(59, 130, 246, 0.4);
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.skill-add-btn:hover {
+    border-style: solid;
+    background: rgba(59, 130, 246, 0.2);
+    transform: scale(1.1);
+}
+
 .hero-actions {
     display: flex;
     gap: 1rem;
@@ -504,6 +574,46 @@ nav a:hover {
     color: var(--primary);
 }
 
+/* Admin Corner Button */
+.admin-corner {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 999;
+    opacity: 0.4;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-corner:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Login Modal adjustments */
+.login-modal-content {
+    max-width: 400px;
+}
+
+.login-error {
+    color: #f87171;
+    font-size: 0.85rem;
+    min-height: 1.2em;
+    margin-top: 0.5rem;
+}
+
 @media (max-width: 640px) {
     .hero h1 {
         font-size: 2.5rem;
@@ -521,5 +631,13 @@ nav a:hover {
     .contact-card {
         padding: 1.5rem;
         grid-template-columns: 1fr;
+    }
+
+    .admin-corner {
+        bottom: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
 }
