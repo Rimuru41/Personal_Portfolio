@@ -9,7 +9,7 @@ const __dirname = fileURLToPath(dirname(import.meta.url));
 
 const app = express();
 const cfg = {
-    port: process.env.APP_PORT || 3000,
+    port: process.env.PORT,
     dir: {
         root: __dirname,
         static: __dirname + sep + 'static',
