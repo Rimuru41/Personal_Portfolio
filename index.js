@@ -169,5 +169,5 @@ app.get((req, res) => {
     res.status(404).render('404');
 })
 app.listen(cfg.port, () => {
-    console.log(`Server is running on port http://localhost:${cfg.port}`);
+    console.log(`Server is running on http://localhost:${cfg.port}`);
 })

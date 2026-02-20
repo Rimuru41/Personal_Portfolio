@@ -159,7 +159,7 @@ nav a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10%;
+    padding: 0 2rem;
     margin: 4rem 0 2rem;
 }
 
@@ -180,9 +180,9 @@ nav a:hover {
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 0 10% 5rem;
+    padding: 0 2rem 5rem;
 }
 
 .project-card {

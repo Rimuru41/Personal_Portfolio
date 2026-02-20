@@ -7,13 +7,13 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     ports:
-      - "${POSTGRES_EXTERNAL_PORT}:${POSTGRES_INTERNAL_PORT}" # Fixed: added dash for list format
+      - "${POSTGRES_EXTERNAL_PORT}:${POSTGRES_INTERNAL_PORT}"
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ] # Recommended format
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -22,10 +22,10 @@ services:
     build: .
     env_file: .env
     ports:
-      - "${APP_PORT}:${APP_PORT}" # Fixed: added dash for list format
+      - "${APP_PORT}:${APP_PORT}"
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules # Anonymous volume to protect node_modules
+      - /usr/src/app/node_modules
     depends_on:
       db:
         condition: service_healthy
