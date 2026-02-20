@@ -168,6 +168,7 @@ app.delete('/api/projects/:id', requireAdmin, async (req, res) => {
 app.get((req, res) => {
     res.status(404).render('404');
 })
-app.listen(cfg.port, () => {
-    console.log(`Server is running on http://localhost:${cfg.port}`);
-})
+// Change this:
+app.listen(cfg.port, "0.0.0.0", () => {
+    console.log(`Server is running on port ${cfg.port}`);
+});
