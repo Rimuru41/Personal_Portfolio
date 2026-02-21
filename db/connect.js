@@ -4,7 +4,7 @@ import { Pool } from 'pg';
 const pool = new Pool({
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
-    database: procBress.env.POSTGRES_DB,
+    database: procress.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_INTERNAL_PORT || 5432,
     ssl: process.env.POSTGRES_HOST !== 'localhost' ? { rejectUnauthorized: false } : false,
