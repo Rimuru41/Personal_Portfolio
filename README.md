@@ -38,13 +38,17 @@ A sleek, modern, and high-performance personal portfolio designed to showcase pr
 ### 2. Environment Setup
 Create a `.env` file in the root directory and add the following:
 ```env
-PORT=3000
-PGUSER=your_user
-PGPASSWORD=your_password
-PGHOST=localhost
-PGPORT=5432
-PGDATABASE=portfolio_db
-SESSION_SECRET=your_super_secret_key
+POSTGRES_USER = user_name
+POSTGRES_DB = database_name 
+POSTGRES_PASSWORD = your_password
+POSTGRES_HOST = host
+
+POSTGRES_EXTERNAL_PORT =5432 
+POSTGRES_INTERNAL_PORT =5432
+
+SESSION_SECRET = your_secret_key
+PORT = 3000
+
 ```
 
 ### 3. Installation & Run
