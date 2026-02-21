@@ -1,6 +1,6 @@
 # 🚀 Personal Portfolio Website
 
-A sleek, modern, and high-performance personal portfolio designed to showcase projects and technical skills. Built with **Node.js**, **Express**, and **PostgreSQL**, this application features a real-time admin dashboard for seamless content management without full-page reloads.
+A personal portfolio designed to showcase projects and technical skills. Built with **Node.js**, **Express**, and **PostgreSQL**, this application features a real-time admin dashboard for seamless content management without full-page reloads.
 
 🔗 **Live Demo:** [https://personalportfolio-production-d8b8.up.railway.app/](https://personalportfolio-production-d8b8.up.railway.app/)
 
@@ -28,15 +28,18 @@ A sleek, modern, and high-performance personal portfolio designed to showcase pr
 
 ---
 
-##  Getting Started
+## Getting Started
 
 ### 1. Prerequisites
+
 - [Node.js](https://nodejs.org/) (v18+)
 - [PostgreSQL](https://www.postgresql.org/) (if running locally)
 - [Docker](https://www.docker.com/) (optional, for containerized setup)
 
 ### 2. Environment Setup
-Create a `.env` file in the root directory and add the following:
+
+Create a `.env` file in the root directory and fill in your details.
+
 ```env
 POSTGRES_USER = user_name
 POSTGRES_DB = database_name 
@@ -54,18 +57,24 @@ PORT = 3000
 ### 3. Installation & Run
 
 #### Using Docker (Recommended)
+
 ```bash
 docker compose up --build -d
 ```
+
 The app will be available at `http://localhost:3000`.
 
 #### Manual Setup
+
 1. Install dependencies:
+
    ```bash
    npm install
    ```
+
 2. Initialize the database using `init.sql`.
 3. Start the server:
+
    ```bash
    npm start
    ```
@@ -87,4 +96,5 @@ The app will be available at `http://localhost:3000`.
 ---
 
 ## 📜 License
+
 This project is licensed under the **ISC License** - see the [LICENSE](LICENSE) file for details.
