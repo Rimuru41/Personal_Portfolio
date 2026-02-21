@@ -1,6 +1,6 @@
 # 🚀 Personal Portfolio Website
 
-A personal portfolio designed to showcase projects and technical skills. Built with **Node.js**, **Express**, and **PostgreSQL**, this application features a real-time admin dashboard for seamless content management without full-page reloads.
+A personal portfolio designed to showcase projects and technical skills. Built with **Node.js**, **Express**, and **PostgreSQL**, this application features a real-time admin dashboard for seamless content management.
 
 🔗 **Live Demo:** [https://personalportfolio-production-d8b8.up.railway.app/](https://personalportfolio-production-d8b8.up.railway.app/)
 
